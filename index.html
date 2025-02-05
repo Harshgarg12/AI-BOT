@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot - Matrix Theme</title>
+    <title>AI Chatbot</title>
     <style>
         * {
             margin: 0;
@@ -12,58 +12,49 @@
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #121212;
-            color: #00ff00;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #121212, #1d1d1d);
+            color: #e0e0e0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            position: relative;
-            background: black;
         }
 
-        /* Matrix Effect */
-        .matrix {
-            position: absolute;
-            top: 0;
-            left: 0;
+        header {
             width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            padding: 20px;
+            background: linear-gradient(135deg, #3a3a3a, #1d1d1d);
+            color: #e0e0e0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .matrix span {
+        footer {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #3a3a3a, #1d1d1d);
+            color: #e0e0e0;
+            text-align: center;
             position: absolute;
-            font-size: 20px;
-            color: #00ff00;
-            animation: fall 1s linear infinite;
+            bottom: 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes fall {
-            0% {
-                top: -100px;
-                opacity: 1;
-            }
-            100% {
-                top: 100vh;
-                opacity: 0;
-            }
-        }
-
-        /* Chat Container */
         .chat-container {
             width: 100%;
             max-width: 600px;
-            height: 90vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 15px;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
             position: relative;
-            z-index: 1;
         }
 
         .chat-box {
@@ -75,44 +66,42 @@
             max-height: 70vh;
             margin-bottom: 10px;
             border-radius: 10px;
-            background-color: #1e1e1e;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            background-color: #333;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
         .input-container {
             display: flex;
             padding: 15px;
-            background: #2b2b2b;
-            border-top: 1px solid #444;
+            background: #444;
+            border-top: 1px solid #555;
             justify-content: space-between;
         }
 
         input {
             flex: 1;
             padding: 12px;
-            border: none;
+            border: 1px solid #555;
             outline: none;
-            background: #333;
-            color: #00ff00;
+            background: #555;
+            color: #e0e0e0;
             font-size: 16px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
             margin-right: 10px;
         }
 
         button {
             padding: 12px 15px;
             border: none;
-            background: #00ff00;
-            color: black;
+            background: #3a3a3a;
+            color: #e0e0e0;
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
 
         button:hover {
-            background: #00cc00;
+            background: #4a4a4a;
         }
 
         .user-message, .bot-message {
@@ -124,24 +113,22 @@
         }
 
         .user-message {
-            background: #00ff00;
-            color: black;
+            background: #3a3a3a;
+            color: #e0e0e0;
             align-self: flex-end;
-            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
         }
 
         .bot-message {
-            background: #333;
-            color: #00ff00;
+            background: #444;
+            color: #e0e0e0;
             align-self: flex-start;
-            box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
         }
 
-        /* Media Queries for Responsiveness */
         @media (max-width: 768px) {
             .chat-container {
                 max-width: 100%;
-                height: 85vh;
+                height: 75vh;
+                padding: 10px;
             }
 
             input {
@@ -156,7 +143,7 @@
 
         @media (max-width: 480px) {
             .chat-container {
-                height: 80vh;
+                height: 70vh;
                 padding: 10px;
             }
 
@@ -173,8 +160,9 @@
 </head>
 <body>
 
-    <!-- Matrix Effect -->
-    <div class="matrix" id="matrix"></div>
+    <header>
+        <h1>AI Chatbot</h1>
+    </header>
 
     <div class="chat-container">
         <div class="chat-box" id="chat-box"></div>
@@ -184,26 +172,11 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2025 AI Chatbot By Harsh. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Matrix effect: create falling characters
-        const matrix = document.getElementById("matrix");
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
-
-        function createMatrixEffect() {
-            const cols = Math.floor(window.innerWidth / 20);
-            for (let i = 0; i < cols; i++) {
-                const span = document.createElement("span");
-                span.style.left = `${i * 20}px`;
-                span.innerText = characters[Math.floor(Math.random() * characters.length)];
-                matrix.appendChild(span);
-                span.style.animationDuration = `${Math.random() * 3 + 3}s`;
-            }
-        }
-
-        createMatrixEffect();
-        setInterval(createMatrixEffect, 100);
-
-        const API_KEY = "AIzaSyCQZWgitt-EDfeezQYMe6nK0CO8BQ-4-iw"; // Replace with your secure API key
         const chatBox = document.getElementById("chat-box");
         const userInput = document.getElementById("user-input");
         const sendBtn = document.getElementById("send-btn");
@@ -223,10 +196,9 @@
 
             displayMessage(aiResponse, "bot");
 
-            // Clear the input after a short delay (optional)
             setTimeout(() => {
                 userInput.value = "";
-            }, 100);  // Adjust delay as necessary
+            }, 100);
         }
 
         function displayMessage(message, sender) {
@@ -263,6 +235,5 @@
             }
         }
     </script>
-
 </body>
 </html>
